@@ -30,6 +30,8 @@ class Listing(models.Model):
         ordering=['-list_date']
         indexes=[models.Index(fields=['list_date'])]
 
+
+#Affect
     def __str__(self):
         return self.title
 

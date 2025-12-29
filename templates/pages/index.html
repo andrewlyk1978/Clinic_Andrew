@@ -1,7 +1,9 @@
 {%extends 'base.html'%}
 
+{% load humanize  %}
 
-<!-- index main content-->>
+
+<!-- index main content-->
 
    {%block content%} 
 
@@ -105,18 +107,24 @@
       <div class="container">
         <h3 class="text-center mb-3">Inpatient medical services</h3>
         <div class="row">
+
+          {% if listings %}
           <!-- Listing 1 -->
+           {% for listing in listings %}
           <div class="col-md-6 col-lg-4 mb-4">
             <div class="card listing-preview">
+              {% comment %} Listing.photo_main.url  {% endcomment %}
               <img
                 class="card-img-top"
-                src="assets/img/clinics/clinic-1.jpg"
+                src="{{listing.photo_main.url}}"
                 alt=""
               />
               <div class="card-img-overlay">
               </div>
               <div class="card-body">
                 <div class="listing-heading text-center">
+
+
                   <h4 class="text-primary">Harmony Health Clinic</h4>
                   <p>
                     <i class="fas fa-map-marker text-secondary"></i> Kowloon Bay
@@ -125,7 +133,7 @@
                 <hr />
                 <div class="row py-2 text-secondary">
                   <div class="col-6">
-                    <i class="fas fa-th-large"></i> Restrooms
+                    <i class="fas fa-th-large"></i> {{listing.service|apnumber|capfirst}}
                   </div>
                   <div class="col-6">
                     <i class="fas fa-dumbbell"></i> Treatment 
@@ -133,7 +141,7 @@
                 </div>
                 <div class="row py-2 text-secondary">
                   <div class="col-6">
-                    <i class="fas fa-bed"></i> Bedrooms
+                    <i class="fas fa-bed"></i> {{listing.rooms}}
                   </div>
                   <div class="col-6">
                     <i class="fas fa-bath"></i> Bathrooms
@@ -141,22 +149,28 @@
                 </div>
                 <hr />
                 <div class="row py-2 text-secondary">
-                  <div class="col-12"><i class="fas fa-user"></i> Ms. Ma</div>
+                  <div class="col-12"><i class="fas fa-user"></i> {}
                 </div>
                 <div class="row text-secondary pb-2">
                   <div class="col-12">
-                    <i class="fas fa-clock"></i> Reservation required
+                    <i class="fas fa-clock"></i> Posted on {{listing.list_date|timesince}}
                   </div>
                 </div>
                 <hr />
-                <a href="listing.html" class="btn btn-primary btn-block"
+                <a href="{% url 'listings:listing' listing.id %}" class="btn btn-primary btn-block"
                   >More Info</a
                 >
               </div>
             </div>
           </div>
+          
+          {% endfor %} {% else %}
+          <div class="col-m-12">
+            <h2>No Clinic Available </h2>
+          </div>
 
-          <!-- Listing 2 -->
+          {% endif %}
+          <!-- Listing 2   -->
           <div class="col-md-6 col-lg-4 mb-4">
             <div class="card listing-preview">
               <img
