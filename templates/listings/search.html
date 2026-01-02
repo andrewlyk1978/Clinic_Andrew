@@ -1,2 +1,214 @@
-<h1>SearchSearch</h1>
-<h1>SearchSearch</h1>
+{% extends 'base.html '%}
+<!-- search main content-->
+{% load humanize %}
+<!--load static -->
+{% load static %}
+
+{% block content%}
+
+
+    <!--Serach  -->
+   
+    <section id="showcase-inner" class="showcase-search text-white py-5">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-md-12">
+            <form action={% url 'listings:search'%}>
+              <!-- Form Row 1 -->
+              <div class="form-row">
+                <div class="col-md-12 mb-3">
+                  <label class="sr-only">Keywords</label>
+                  <input
+                    type="text"
+                    name="keywords"
+                    class="form-control"
+                    placeholder="Keyword (Clinic, Doctor, City name, Town name, etc)"]
+                    value="{{values.key}}"
+                  />
+                </div>
+              </div>
+              <!-- Form Row 2 -->
+              <div class="fosrm-row">
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">District</label>
+                  <select name="district" class="form-control">
+                    <option {% if not values.district %} selected="true" value="" {% endif %}>
+                      District (All)
+                    </option>
+                    {% for key, value in district_choices.items %}
+                    <option value="{{key}}" {% if not values.district ==key %} selected='true' {% endif %}> {{value}}</option>
+                    {{ endfor }}
+
+                  </select>
+
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Rooms</label>
+                  <select name="rooms" class="form-control">
+                    <option {% if not values.rooms %} selected="true" value="" {% endif %} >
+                      Rooms (All)
+                    </option>
+                    {% for key, value in rooms_choices.items %}
+                    <option value="{{key}}" {% if values.room==key %} selected='true' {% endif %} >{{value}}</option> {% endfor %}
+
+                  </select>
+                
+              <button class="btn btn-secondary btn-block mt-4" type="submit">
+                Submit form
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <section id="bc" class="mt-3">
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="{% url 'pages:index' %}"> <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="{% url 'listings:index' %}">Browse Listings</a>
+            </li>
+            <li class="breadcrumb-item active">Search Results</li>
+          </ol>
+        </nav>
+      </div>
+    </section>
+
+   <!-- Listings -->
+    <section id="listings" class="py-4">
+      <div class="container">
+        <!--Loop listings-->
+        <div class="row">
+          <!-- Listing 1 -->
+          {% if listings %} 
+            {% for listing in listings %}
+            <!--Listing for loop-->
+            
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card listing-preview">
+                <img
+                  class="card-img-top"
+                  {% comment %} clinic {% endcomment %}
+                  src="assets/img/clinics/clinic-1.jpg"
+                  alt=""
+                />
+                <div class="card-img-overlay">
+                </div>
+                <div class="card-body">
+                  <div class="listing-heading text-center">
+                    <h4 class="text-primary">Harmony Health Clinic</h4>
+                    <p>
+                      <i class="fas fa-map-marker text-secondary"></i> Kowloon Bay
+                    </p>
+                  </div>
+                  <hr />
+                  <div class="row py-2 text-secondary">
+                    <div class="col-6">
+                      <i class="fas fa-th-large"></i> Restrooms
+                    </div>
+                    <div class="col-6">
+                      <i class="fas fa-dumbbell"></i> Treatment 
+                    </div>
+                  </div>
+                  <div class="row py-2 text-secondary">
+                    <div class="col-6">
+                      <i class="fas fa-bed"></i> Bedrooms
+                    </div>
+                    <div class="col-6">
+                      <i class="fas fa-bath"></i> Bathrooms
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row py-2 text-secondary">
+                    <div class="col-12"><i class="fas fa-user"></i> Ms. Ma</div>
+                  </div>
+                  <div class="row text-secondary pb-2">
+                    <div class="col-12">
+                      <i class="fas fa-clock"></i> Reservation required
+                    </div>
+                  </div>
+                  <hr />
+                  <a href="listing.html" class="btn btn-primary btn-block"
+                    >More Info</a
+                  >
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+          <div class="col-md-12">
+            <p>No listings avaliable  at the moment Please check back later</p>
+          </div > 
+          {% endif %}
+
+
+
+        <!--pagination-->
+        <div class="row">
+          <div class="col-md-12">
+            {% if listings.has_other_pages %}
+            <ul class="pagination">
+
+              <!--left page arrows-->s
+              {% if listings.has_previous %}              
+              <li class="page-item disabled">
+                <a class="page-link" href="{{ listings.previous_page_number }}"
+                >&laquo;</a>     </li>
+              {% else %}
+                <li class="page-item disabled">
+                <a class="page-link" href="#">&laquo;</a>
+              </li>
+              {% endif %}
+
+              
+              <!-- for-lo0p pagination -->
+              {% for i in listings.paginator.page_range %}
+              {% if listings.number == i %}"
+                <li class="page-item active">
+                  <a class="page-link">{{i}}</a>
+                  </li>
+              {% else %}
+                <li class="page-item">
+                  <a class="pags-link" href="?page={{i}}">{{i}}</a>
+                </li>
+              {% endif %}
+              {% endfor %}
+
+              <!-- right arrows -->
+              {% if listings.has_next %}              
+              <li class="page-item disabled">
+                <a class="page-link" href="{{ listings.next_page_number }}"
+                >&raquo;</a>     </li>
+              {% else %}
+                <li class="page-item disabled">
+                <a class="page-link" href="#">&raquo;</a>
+              </li>
+              {% endif %}
+            
+
+            </ul>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer id="main-footer" class="py-4 bg-primary text-white text-center">
+      Copyright &copy;
+      <span class="year"></span> BC Health Care
+    </footer>
+
+    <script src="assets/js/jquery-3.3.1.min.js "></script>
+    <script src="assets/js/bootstrap.bundle.min.js "></script>
+    <script src="assets/js/lightbox.min.js"></script>
+    <script src="assets/js/main.js "></script>
+  </body>
+</html>
+{% endblock %}

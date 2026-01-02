@@ -108,7 +108,7 @@
 
       {% if listings %}
       <!-- Listing 1 -->
-      {% for listing in listings %}
+        {% for listing in listings %}
       <div class="col-md-6 col-lg-4 mb-4">
         <div class="card listing-preview">
           {% comment %} Listing.photo_main.url  {% endcomment %}
@@ -139,7 +139,7 @@
             </div>
             <div class="row py-2 text-secondary">
               <div class="col-6">
-                <i class="fas fa-bed"></i> {{ listing.rooms }}
+                <i class="fas fa-bed"></i> {{listing.rooms}}
               </div>
               <div class="col-6">
                 <i class="fas fa-bath"></i> Bathrooms
@@ -147,8 +147,7 @@
             </div>
             <hr />
             <div class="row py-2 text-secondary">
-              <div class="col-12"><i class="fas fa-user"></i> {{ listing.doctor.name }}
-              </div>
+              <div class="col-12"><i class="fas fa-user"></i> {}
             </div>
             <div class="row text-secondary pb-2">
               <div class="col-12">
@@ -169,7 +168,111 @@
       </div>
 
       {% endif %}
+      <!-- Listing 2   -->
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card listing-preview">
+          <img
+            class="card-img-top"
+            src="assets/img/clinics/clinic-2.jpg"
+            alt=""
+          />
+          <div class="card-img-overlay">
+          </div>
+          <div class="card-body">
+            <div class="listing-heading text-center">
+              <h4 class="text-primary">Evercare Medical Center</h4>
+              <p>
+                <i class="fas fa-map-marker text-secondary"></i> Kowloon
+                City
+              </p>
+            </div>
+            <hr />
+            <div class="row py-2 text-secondary">
+              <div class="col-6">
+                <i class="fas fa-th-large"></i> Restrooms
+              </div>
+              <div class="col-6">
+                <i class="fas fa-dumbbell"></i> Treatment 
+              </div>
+            </div>
+            <div class="row py-2 text-secondary">
+              <div class="col-6">
+                <i class="fas fa-bed"></i> Bedrooms
+              </div>
+              <div class="col-6">
+                <i class="fas fa-bath"></i> Bathrooms
+              </div>
+            </div>
+            <hr />
+            <div class="row py-2 text-secondary">
+              <div class="col-12">
+                <i class="fas fa-user"></i> Ms. Chung
+              </div>
+            </div>
+            <div class="row text-secondary pb-2">
+              <div class="col-12">
+                <i class="fas fa-clock"></i> Reservation required
+              </div>
+            </div>
+            <hr />
+            <a href="listing.html" class="btn btn-primary btn-block"
+              >More Info</a
+            >
+          </div>
+        </div>
+      </div>
 
+      <!-- Listing 3 -->
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card listing-preview">
+          <img
+            class="card-img-top"
+            src="assets/img/clinics/clinic-3.jpg"
+            alt=""
+          />
+          <div class="card-img-overlay">
+          </div>
+          <div class="card-body">
+            <div class="listing-heading text-center">
+              <h4 class="text-primary">VitalPath Wellness Clinic</h4>
+              <p>
+                <i class="fas fa-map-marker text-secondary"></i> Sham Shui
+                Po
+              </p>
+            </div>
+            <hr />
+            <div class="row py-2 text-secondary">
+              <div class="col-6">
+                <i class="fas fa-th-large"></i> Restrooms
+              </div>
+              <div class="col-6">
+                <i class="fas fa-dumbbell"></i> Treatment 
+              </div>
+            </div>
+            <div class="row py-2 text-secondary">
+              <div class="col-6">
+                <i class="fas fa-bed"></i> Bedrooms
+              </div>
+              <div class="col-6">
+                <i class="fas fa-bath"></i> Bathrooms
+              </div>
+            </div>
+            <hr />
+            <div class="row py-2 text-secondary">
+              <div class="col-12"><i class="fas fa-user"></i> Ms. Chan</div>
+            </div>
+            <div class="row text-secondary pb-2">
+              <div class="col-12">
+                <i class="fas fa-clock"></i> Reservation required
+              </div>
+            </div>
+            <hr />
+            <a href="listing.html" class="btn btn-primary btn-block"
+              >More Info</a
+            >
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

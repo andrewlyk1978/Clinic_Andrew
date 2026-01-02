@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+from django.contrib.messages import constants as messages
+
+
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,13 +30,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)4zg$9yt1_xts5473nk=80+j$)rv0ks^7uny21+7uc270@a9a9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1","localhost"]
 
 
 # Application definition
-APPICATION_APPS=['pages.apps.PagesConfig','doctors.apps.DoctorsConfig','listings.apps.ListingsConfig']
+#APPICATION_APPS=['pages.apps.PagesConfig','doctors.apps.DoctorsConfig','listings.apps.ListingsConfig']
 
 
 DJAGNGO_APPS = [
@@ -47,9 +50,11 @@ DJAGNGO_APPS = [
 
 # Doctors  Listings are added
 APPLICATIONS_APPS=['pages.apps.PagesConfig',
-                   'doctors.apps.DoctorsConfig','listings.apps.ListingsConfig']
+                   'doctors.apps.DoctorsConfig',
+                   'listings.apps.ListingsConfig',
+                   'accounts.apps.AccountsConfig',]
 
-THIRD_PARTY_APPS = ['debug_toolbar']
+THIRD_PARTY_APPS = ['debug_toolbar',]
 
 # THIRD_PARTY_APPS = ['debug_toolbar'] is newly added
 INSTALLED_APPS=DJAGNGO_APPS +APPLICATIONS_APPS+THIRD_PARTY_APPS
@@ -67,9 +72,10 @@ DJANGO_MIDDLEWARE = [
 ]
 
 
+
 THIRD_PARTY_MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware']
 
-MIDDLEWARE = DJANGO_MIDDLEWARE + THIRD_PARTY_MIDDLEWARE
+MIDDLEWARE = THIRD_PARTY_MIDDLEWARE+DJANGO_MIDDLEWARE 
 
 ROOT_URLCONF = 'config.urls'
 
@@ -160,3 +166,11 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 MEDIA_URL='/media/'
 
 INTERNAL_IPS = ['127.0.0.1']
+
+
+MESSAGE_TAGS ={
+  messages.ERROR:'danger',
+  messages.SUCCESS: 'success',  
+
+
+}
