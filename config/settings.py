@@ -46,15 +46,17 @@ DJAGNGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles','django.contrib.humanize',
+    'widget_tweaks',
 ]
 
 # Doctors  Listings are added
 APPLICATIONS_APPS=['pages.apps.PagesConfig',
                    'doctors.apps.DoctorsConfig',
                    'listings.apps.ListingsConfig',
-                   'accounts.apps.AccountsConfig',]
+                   'accounts.apps.AccountsConfig',
+                   'contacts.apps.ContactsConfig',]
 
-THIRD_PARTY_APPS = ['debug_toolbar',]
+THIRD_PARTY_APPS = ['debug_toolbar','taggit']
 
 # THIRD_PARTY_APPS = ['debug_toolbar'] is newly added
 INSTALLED_APPS=DJAGNGO_APPS +APPLICATIONS_APPS+THIRD_PARTY_APPS

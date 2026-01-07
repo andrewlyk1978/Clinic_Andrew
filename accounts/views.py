@@ -1,15 +1,35 @@
 from django.shortcuts import render,redirect
-from django.contrib import messages
+from django.contrib import messages,auth
 from django.contrib.auth.models import User
-
+from contacts.models import Contact
 
 
 # Create your views here.
 def login(request):
-    return render(request,'accounts/login.html')
+    if request.method == 'POST' :
+        username = request.POST['username']
+        password = request.POST['password']
+        user = auth.authenticate(username=username, password=password)
+        if user is not None:
+            auth.login(request,user)
+            messages.success(request, 'You are now logged-in') 
+            return redirect('aacounts:dashboard')
+               # go to endpoint 
+
+        else:
+            messages.error(request,'Invalid credentials')
+            return redirect('accounts:login')
+                # go to endpoint 
+
+    else:
+        return render(request,'accounts/login.html')
+                # html is special make 
 
 def logout(request):
-    return render(request,'accounts/logout.html')
+    if request.method=='POST':
+        auth.logout(request)
+        #return render('pages:index')
+        return redirect('pages:index')
 
 def register(request):
     if request.method == 'POST':
@@ -26,22 +46,25 @@ def register(request):
                messages.error(request,'Username already exists')
                return redirect("accounts:register")
            
+          
            else:
-                pass
+                if User.objects.filter(email=email).exists():
+                    messages.error(request, 'Email already exixts')
+                    return redirect("accounts:register")
         
+                else:
+                    user= User.objects.create_user(username=username,password=password,email=email, first_name=first_name, last_name=last_name)
+                    user.save()
+                    messages.success(request,'You are now registered and can log in')
+                    return redirect("accounts:login")
         else:
-            if User.objects.filter(email=email).exists():
-                 messages.error(request, 'Passwords do not match')
-                 return redirect("accounts:register")
-        
-            else:
-                user= User.objects.create_user(username=username,password=password,email=email, first_name=first_name, last_name=last_name)
-                user.save()
-                messages.success(request,'You are now registered and can log in')
-                return redirect("accounts:login")
+            messages.error(request,'Passwords do not match')
+            return redirect("aacounts:register")
 
     else: 
         return render(request,'accounts/register.html')
 
 def dashboard(request):
-    return render(request,'accounts/dashboard.html')
+    user_contacts=Contact.objects.all().filter(user_id=request.user.id).order_by('-contact_date')
+    context={"contacts": user_contacts}
+    return render(request,'accounts/dashboard.html',context)

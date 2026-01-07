@@ -32,6 +32,8 @@
   </div>
 </section>
 
+
+{% include 'partials/_alert.html' %}
 <!-- Listing -->
 <section id="listing" class="py-4">
   <div class="container">
@@ -45,7 +47,7 @@
           class="img-main img-fluid mb-3"
         />
         <!-- Thumbnails -->
-        <div class="row mb-5 thumbs">
+        < class="row mb-5 thumbs">
           <div class="col-md-3">
             {% if listings.photo_1 %}
             <a href="{{listings.photo_1.url}}" data-lightbox="home-images">
@@ -79,33 +81,11 @@
             </a>
             {% endif %}
           </div>
-
-          <!--Fields-->
-          <div class="col-md-2">
-            <a
-              href="assets/img/clinics/clinic-inside-5.jpg"
-              data-lightbox="home-images"
-            >
-              <img
-                src="assets/img/clinics/clinic-inside-5.jpg"
-                alt=""
-                class="img-fluid"
-              />
-            </a>
-          </div>
-          <div class="col-md-2">
-            <a
-              href="assets/img/clinics/clinic-inside-6.jpg"
-              data-lightbox="home-images"
-            >
-              <img
-                src="assets/img/clinics/clinic-inside-6.jpg"
-                alt=""
-                class="img-fluid"
-              />
-            </a>
-          </div>
+        
         </div>
+
+          
+        
         <!-- Fields -->
         <div class="row mb-5 fields">
           <div class="col-md-6">
@@ -129,6 +109,7 @@
               </li>
             </ul>
           </div>
+
           <div class="col-md-6">
             <ul class="list-group list-group-flush">
               <li class="list-group-item text-secondary">
@@ -150,7 +131,34 @@
             </ul>
           </div>
         </div>
+<!-- Professionals-->
+<div class="row mb-5">
+<h4 class="mr-3 text-secondary"> Professions: </h4>
+{% if listing.professaions.all %}
+<ul>
+  {% for profession in listing.professions.all %}
+    <li clss="mr-3"> <h4> {{professsion.name}} </h4> </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p class ="text-secondary"> No professiona listed. </p>
+{% endif %}
+</div>
 
+<!--Services-->
+<div class="row- mb-5">
+  <h4 class="text-secondary"> Services: </h4>
+      {% if listing.services.all %}
+      <!-- Service Tag-->
+
+      {% for service_tag in listing.services.all %}
+      <ul>
+        <li class="mr-3"> {{service_tag.name | title }}</li>
+      </ul>
+      {% endfor %} {% else %}
+      <h4> No Services</h4>
+      {% endif %}
+  </div>
         <!-- Description -->
         <div class="row mb-5">
           <div class="col-md-12">
@@ -158,7 +166,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3">
+  <div class="col-md-3">
         <div class="card mb-3">
           <img
             class="card-img-top"
@@ -168,8 +176,8 @@
           <div class="card-body">
             <h5 class="card-title">Medical Practitioner</h5>
             <h6 class="text-secondary">{{listing.doctor.name}}</h6>
-          </div>
-        </div>
+    </div>
+      </div>
         <button
           class="btn-primary btn-block btn-lg"
           data-toggle="modal"
@@ -194,24 +202,44 @@
       </button>
     </div>
     <div class="modal-body">
-      <form>
+      <form method="POST" action="{% url 'contacts:contact' %}"> 
+              {%csrf_token%}
+          <input type="hidden" name="listing_id" value="{{listing.id}}"/>
+          {% if user.is_authenticated%}
+          <input type="hidden" name="user_id" value="{{user.id}}"/>
+          {% else %}
+          <input type="hidden" name="user_id" value="0"/>
+          {% endif %}
+
+
+
+
         <div class="form-group">
-          <label for="property_name" class="col-form-label">Property:</label>
+          <label for="listing" class="col-form-label">Clinic:</label>
           <input
             type="text"
             name="listing"
             class="form-control"
-            value="45 Prince Street"
-            disabled
+            value={{listing.title |title }}
+            readonly
           />
         </div>
         <div class="form-group">
           <label for="name" class="col-form-label">Name:</label>
-          <input type="text" name="name" class="form-control" required />
+          <!-- prettier ignore-->
+          <input type="text" name="name" class="form-control" {% if user.is_authenticated %} 
+              value="{{user.first_name}}{{user.last_name}}" 
+              readonly 
+              {% endif %}
+              
+              />
         </div>
         <div class="form-group">
           <label for="email" class="col-form-label">Email:</label>
-          <input type="email" name="email" class="form-control" required />
+           <!-- prettier ignore-->
+
+          <input type="email" name="email" class="form-control" {%if user.is_authenticated %} 
+              value="{{user.email}}" readonly {% endif %}/>
         </div>
         <div class="form-group">
           <label for="phone" class="col-form-label">Phone:</label>
