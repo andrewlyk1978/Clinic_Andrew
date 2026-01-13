@@ -5,6 +5,8 @@ from django.contrib import messages
 
 from .forms import ContactForm 
 
+from django.core.mail import send_mail
+
 # Create your views here.
 
 
@@ -17,6 +19,10 @@ def contact(request):
         phone = request.POST['phone']
         message = request.POST['message']
         user_id = request.POST['user_id']
+
+        doctor_email=request.post['doctor_email']
+
+
         if request.user.is_authenticated:
             has_contacted = Contact.objects.all().filter(listing_id=listing_id,user_id=user_id)
             if has_contacted:
@@ -26,6 +32,17 @@ def contact(request):
    
 
         contact.save()
+
+        # Save Email 
+        send_mail(
+            'Clinic Inquiry',
+            'There has been an inquiry for '+ listing + '.Sign into the admin panel for more info',
+            'andrewlyk1978@gmail.com',
+            [listing.doctor,email],
+            [doctor_email],
+            fail_silently=False,         
+
+        )
         messages.success(request, 'Your request has benn submitted CLinic representative will get you back soon')
 
 

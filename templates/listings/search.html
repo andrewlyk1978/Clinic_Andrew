@@ -1,8 +1,14 @@
 {% extends 'base.html '%}
 <!-- search main content-->
 {% load humanize %}
+
+
+<!--title search-->
+{% block title %} | Search{% endblock %}
+
+
 <!--load static -->
-{% load static %}
+{% load static %} 
 
 {% block content%}
 
@@ -23,12 +29,12 @@
                     name="keywords"
                     class="form-control"
                     placeholder="Keyword (Clinic, Doctor, City name, Town name, etc)"]
-                    value="{{values.key}}"
+                    value="{{values.keywords}}"
                   />
                 </div>
               </div>
               <!-- Form Row 2 -->
-              <div class="fosrm-row">
+              <div class="form-row">
                 <div class="col-md-4 mb-3">
                   <label class="sr-only">District</label>
                   <select name="district" class="form-control">
@@ -36,7 +42,7 @@
                       District (All)
                     </option>
                     {% for key, value in district_choices.items %}
-                    <option value="{{key}}" {% if not values.district ==key %} selected='true' {% endif %}> {{value}}</option>
+                    <option value="{{key}}" {% if values.district == key %} selected='true' {% endif %}> {{value}}</option>
                     {{ endfor }}
 
                   </select>
@@ -49,7 +55,7 @@
                       Rooms (All)
                     </option>
                     {% for key, value in rooms_choices.items %}
-                    <option value="{{key}}" {% if values.room==key %} selected='true' {% endif %} >{{value}}</option> {% endfor %}
+                    <option value="{{key}}" {% if values.rooms == key %} selected='true' {% endif %} >{{value}}</option> {% endfor %}
 
                   </select>
                 
@@ -93,8 +99,9 @@
               <div class="card listing-preview">
                 <img
                   class="card-img-top"
-                  {% comment %} clinic {% endcomment %}
-                  src="assets/img/clinics/clinic-1.jpg"
+                  {% comment %} clinic src="assets/img/clinics/clinic-1.jpg"{% endcomment %}
+                  
+                  src="{listing.photo_main.url}"
                   alt=""
                 />
                 <div class="card-img-overlay">

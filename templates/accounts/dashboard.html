@@ -1,7 +1,14 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
 <!--load humnaize-->
 {% load humanize %}
 
+
+<!--Block Title-->
+
+{%block title %} | {{ user.name | title }} {% endblock %}
+
+
+ {% block content %}
 
 
     <section id="showcase-inner" class="py-5 text-white">
@@ -99,6 +106,6 @@
         </div>
      </div>
  </div>
-
+</div>
 
 {% endblock content %}

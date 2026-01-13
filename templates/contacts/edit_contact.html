@@ -11,18 +11,17 @@
 <div class="col-md-6">
 
 <div class="card p-6 shadow-sm">
-
-<form>
  <h1 clas="text=center mb-4"> Edit Message </h1>
+
 <form action="{% url  'contacts:edit_contact' contact.id %}" method="POST">
     {% csrf_token %}
         <div class="mb-3">
         
-        </div>
+       
 {{form.message | add_label_class:"class-label"}}
 <!--form error -->
 
-{% if form.message.erroes %}
+{% if form.message.errors %}
 <div class="text-danger mb-2"> {{form.message.errors}} </div>
 {% endif %}
 
